@@ -5,7 +5,7 @@ let app = express()
 
 app.get('/',function(req,res){
     console.log('TEST')
-    return res.send(JSON.stringify("hello" ));
+    return res.send(JSON.stringify("hello world" ));
 })
 
 
