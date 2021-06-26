@@ -1,11 +1,18 @@
 let express = require('express')
 let app = express()
+let pg=require('pg')
 
-
-
+// return res.send(JSON.stringify("hello world" ));
 app.get('/',function(req,res){
-    console.log('TEST')
-    return res.send(JSON.stringify("hello world" ));
+  pg.connect(connect,function(err,client,done){
+if(err){
+    return console.error('error fetching client fro pool',err)
+}
+client.query('SELECT * FROM recipes',function(err,result){
+if(err){return console.error('error running query',err)}
+res.render('index',{recipes:result.rows})
+})
+  })
 })
 
 
