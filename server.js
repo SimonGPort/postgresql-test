@@ -7,6 +7,7 @@ let {Pool,Client}=require('pg')
 
 //DB conect string
 // let connectionString="postgres://username:password@localhost:PORT/:Maruchi1@localhost/databaseName";
+// Le port par default de pgAdmin est 5432
 let connectionString="postgres://postgresql-test:Maruchi1@localhost:5432/postgresql-test";
 
 let client=new Client({
@@ -21,16 +22,29 @@ client.connect()
 //     client.end()
 // })
 
-app.get('/',function(req,res){
-let rows=[]
+app.get('/', (req,res)=>{
 
-client.query('SELECT * from recipes',(err,res)=>{
-    rows=res
+client.query('SELECT * from recipes',(err,DBres)=>{
+    console.log('DBres',DBres)
+    let rows=[]
+    rows=DBres.rows
     client.end()
+
+    console.log("rows",rows)
+    res.send(JSON.stringify({recipes:rows}))
 })
-console.log("rows",rows)
-res.send(JSON.stringify({recipes:rows}));
 })
+
+
+//devrait etre un POST, mais je mets un GET pour pouvoir l'activer a partir d'une page
+app.get('/add',function(req,res){    
+    client.query('INSERT INTO recipes (name,ingredients,directions) VALUES ($1,$2,$3)',["C", "Lorem ipsum", "Lorem ipsum"],
+    (err,DBres)=>{console.log(DBres)})
+    
+//le type de name est character, le type de ingredients et directions est text
+    // res.redirect('/')
+    res.send(JSON.stringify("success"));
+    })
 
 
 
