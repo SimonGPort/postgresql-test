@@ -2,47 +2,35 @@
 
 let express = require('express')
 let app = express()
-let {Pool}=require('pg')
+let {Pool,Client}=require('pg')
 
-let pool=new Pool()
 
 //DB conect string
-// let connect="postgres://username:password@localhost/databaseName";
-let connect="postgres://postgresql-test:Maruchi1@localhost/postgresql-test";
+// let connectionString="postgres://username:password@localhost:PORT/:Maruchi1@localhost/databaseName";
+let connectionString="postgres://postgresql-test:Maruchi1@localhost:5432/postgresql-test";
 
-// return res.send(JSON.stringify("hello world" ));
+let client=new Client({
+    connectionString:connectionString
+})
+
+client.connect()
+
+// client.query('SELECT * from recipes',(err,res)=>{
+//     console.log(err,res)
+    // Dans la res, il y a rows qui contient les valeurs de la DB
+//     client.end()
+// })
+
 app.get('/',function(req,res){
-    pool.connect(connect,function(err,client,done){
-if(err){
-    return console.error('error fetching client fro pool',err)
-}
-client.query('SELECT * FROM recipes',function(err,result){
-if(err){return console.error('error running query',err)}
-res.render('index',{recipes:result.rows})
+let rows=[]
+
+client.query('SELECT * from recipes',(err,res)=>{
+    rows=res
+    client.end()
 })
-  })
+console.log("rows",rows)
+res.send(JSON.stringify({recipes:rows}));
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
