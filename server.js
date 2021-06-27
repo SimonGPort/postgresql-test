@@ -46,6 +46,18 @@ app.get('/add',function(req,res){
     res.send(JSON.stringify("success"));
     })
 
+    
+
+    //devrait etre un POST, mais je mets un GET pour pouvoir l'activer a partir d'une page
+app.get('/delete',function(req,res){    
+    client.query('DELETE FROM recipes WHERE id = $1',[1],
+    (err,DBres)=>{console.log(DBres)})
+
+//le type de name est character, le type de ingredients et directions est text
+    // res.redirect('/')
+    res.send(JSON.stringify("success"));
+    })
+
 
 
 
