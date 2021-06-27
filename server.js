@@ -40,7 +40,7 @@ client.query('SELECT * from recipes',(err,DBres)=>{
 app.get('/add',function(req,res){    
     client.query('INSERT INTO recipes (name,ingredients,directions) VALUES ($1,$2,$3)',["C", "Lorem ipsum", "Lorem ipsum"],
     (err,DBres)=>{console.log(DBres)})
-    
+
 //le type de name est character, le type de ingredients et directions est text
     // res.redirect('/')
     res.send(JSON.stringify("success"));
