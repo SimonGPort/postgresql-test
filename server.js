@@ -60,6 +60,18 @@ app.get('/delete',function(req,res){
 
 
 
+        //devrait etre un POST, mais je mets un GET pour pouvoir l'activer a partir d'une page
+app.get('/update',function(req,res){    
+    client.query('UPDATE recipes SET name=$1, ingredients=$2, directions=$3 WHERE id=$4',['D','editIncredient','editDirection',2],
+    (err,DBres)=>{console.log(DBres)})
+
+//le type de name est character, le type de ingredients et directions est text
+    // res.redirect('/')
+    res.send(JSON.stringify("success"));
+    })
+
+
+
 
 
 app.listen(4000, '0.0.0.0', () => { console.log("Server running on port 4000") })
